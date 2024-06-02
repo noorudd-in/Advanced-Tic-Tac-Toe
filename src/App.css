@@ -1,0 +1,48 @@
+.rotate {
+  transform: rotate(270deg);
+}
+
+.board-3g {
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+}
+
+.board-4g {
+  grid-template-columns: 75px 75px 75px 75px;
+  grid-template-rows: 75px 75px 75px 75px;
+}
+
+.tile {
+  color: currentColor;
+}
+
+.right-border {
+  border-right: 0.2em solid #0074a6;
+}
+
+.bottom-border {
+  border-bottom: 0.2em solid #0074a6;
+}
+
+.board-3g-demo {
+  grid-template-columns: 50px 50px 50px;
+  grid-template-rows: 50px 50px 50px;
+}
+
+.board-4g-demo {
+  grid-template-columns: 38px 38px 38px 38px;
+  grid-template-rows: 38px 38px 38px 38px;
+}
+
+.board-5g-demo {
+  grid-template-columns: 30px 30px 30px 30px 30px;
+  grid-template-rows: 30px 30px 30px 30px 30px;
+}
+
+.right-border-demo {
+  border-right: 0.1em solid #0074a6;
+}
+
+.bottom-border-demo {
+  border-bottom: 0.1em solid #0074a6;
+}
