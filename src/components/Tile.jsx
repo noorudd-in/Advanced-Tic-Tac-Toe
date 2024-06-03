@@ -1,10 +1,10 @@
-const Tile = ({ classname, value, handleClick }) => {
+const Tile = ({ classname, value, handleClick, nextTile }) => {
   return (
     <div
       className={`tile flex justify-center items-center ${classname}`}
       onClick={handleClick}
     >
-      {value}
+      <span className={nextTile && "animate-pulse"}>{value}</span>
     </div>
   );
 };
