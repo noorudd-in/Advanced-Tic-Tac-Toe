@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../components/pages/HomePage";
 import SelectLevel from "../components/pages/SelectLevel";
 import GlobalHeader from "../components/GlobalHeader";
-import Basic from "../components/Basic";
+import GameBoard from "../components/pages/GameBoard";
 
 const GAME_ROUTES = createBrowserRouter([
   {
@@ -26,11 +26,11 @@ const GAME_ROUTES = createBrowserRouter([
     errorElement: <h1>Error</h1>,
   },
   {
-    path: "/basic",
+    path: "/game",
     element: (
       <>
         <GlobalHeader />
-        <Basic />
+        <GameBoard />
       </>
     ),
     errorElement: <h1>Error</h1>,
