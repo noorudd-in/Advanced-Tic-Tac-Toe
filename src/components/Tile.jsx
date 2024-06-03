@@ -4,7 +4,7 @@ const Tile = ({ classname, value, handleClick, nextTile }) => {
       className={`tile flex justify-center items-center ${classname}`}
       onClick={handleClick}
     >
-      <span className={nextTile && "animate-pulse"}>{value}</span>
+      <span className={nextTile ? "animate-pulse" : ""}>{value}</span>
     </div>
   );
 };

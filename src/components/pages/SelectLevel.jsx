@@ -48,7 +48,6 @@ const SelectLevel = () => {
     }
 
     let data = new Array(gridSize * gridSize).fill(null);
-    console.log(mode);
     dispatch(
       updateGameState({
         data: data,
