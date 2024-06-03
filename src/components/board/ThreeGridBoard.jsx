@@ -117,6 +117,8 @@ const ThreeGridBoard = () => {
           </div>
         </div>
       </div>
+
+      {/* Grid / Board */}
       <div className="board-3g grid cursor-pointer relative justify-center mt-10">
         <Tile
           value={boardData[0]}
