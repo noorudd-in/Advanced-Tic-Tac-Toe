@@ -4,7 +4,6 @@ import gameSlice from "./gameSlice";
 
 export const store = configureStore({
   reducer: {
-    twoPlayer: twoPlayerReducer,
     gameState: gameSlice,
   },
 });

@@ -58,7 +58,7 @@ const SelectLevel = () => {
         playersName: playerNames,
       })
     );
-    navigate("/basic");
+    navigate("/game");
   };
   return (
     <>

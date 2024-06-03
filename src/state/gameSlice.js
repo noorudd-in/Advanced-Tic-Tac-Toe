@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   data: [],
   grid: 3,
-  mode: "basic",
+  mode: null,
   players: 2,
   playersName: { p1: "", p2: "", p3: "" },
 };
