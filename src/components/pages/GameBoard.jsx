@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
 import ThreeGridBoard from "../board/ThreeGridBoard";
-import FourGridBaord from "../board/FourGridBaord";
+import FourGridBoard from "../board/FourGridBoard";
 const GameBoard = () => {
   const state = useSelector((state) => state.gameState);
 
   return (
     <>
       {state.grid == 3 && <ThreeGridBoard />}
-      {state.grid == 4 && <FourGridBaord />}
+      {state.grid == 4 && <FourGridBoard />}
     </>
   );
 };
