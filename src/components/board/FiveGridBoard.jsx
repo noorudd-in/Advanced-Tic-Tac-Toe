@@ -6,38 +6,43 @@ import toast, { Toaster } from "react-hot-toast";
 
 const winnerCombinations = [
   // Left Upper Grid Combination
-  { combi: [0, 1, 2] },
-  { combi: [3, 4, 5] },
-  { combi: [6, 7, 8] },
-  { combi: [0, 3, 6] },
-  { combi: [1, 4, 7] },
-  { combi: [2, 5, 8] },
-  { combi: [0, 4, 8] },
-  { combi: [2, 4, 6] },
+  { combi: [0, 1, 2, 3] },
+  { combi: [5, 6, 7, 8] },
+  { combi: [10, 11, 12, 13] },
+  { combi: [5, 16, 17, 18] },
+  { combi: [0, 5, 10, 15] },
+  { combi: [1, 6, 11, 16] },
+  { combi: [2, 7, 12, 17] },
+  { combi: [3, 8, 13, 18] },
+  { combi: [0, 6, 12, 18] },
+  { combi: [3, 7, 11, 18] },
   // Right Upper Grid Combination
-  { combi: [1, 2, 9] },
-  { combi: [4, 5, 10] },
-  { combi: [7, 8, 11] },
-  { combi: [9, 10, 11] },
-  { combi: [1, 5, 11] },
-  { combi: [9, 5, 7] },
+  { combi: [1, 2, 3, 4] },
+  { combi: [6, 7, 8, 9] },
+  { combi: [11, 12, 13, 14] },
+  { combi: [16, 17, 18, 19] },
+  { combi: [4, 9, 14, 19] },
+  { combi: [1, 7, 13, 19] },
+  { combi: [4, 8, 12, 16] },
   // Left Lower Gird Combination
-  { combi: [12, 13, 14] },
-  { combi: [3, 6, 12] },
-  { combi: [4, 7, 13] },
-  { combi: [5, 8, 14] },
-  { combi: [3, 7, 14] },
-  { combi: [5, 7, 12] },
+  { combi: [20, 21, 22, 23] },
+  { combi: [5, 10, 15, 20] },
+  { combi: [6, 11, 16, 21] },
+  { combi: [7, 12, 17, 22] },
+  { combi: [8, 13, 18, 23] },
+  { combi: [5, 11, 17, 23] },
+  { combi: [8, 12, 16, 20] },
   // Right Lower Grid Combination
-  { combi: [4, 5, 10] },
-  { combi: [7, 8, 11] },
-  { combi: [13, 14, 15] },
-  { combi: [10, 11, 15] },
-  { combi: [4, 8, 15] },
-  { combi: [10, 8, 13] },
+  { combi: [21, 22, 23, 24] },
+  { combi: [6, 11, 16, 21] },
+  { combi: [7, 12, 17, 22] },
+  { combi: [8, 13, 18, 23] },
+  { combi: [9, 14, 19, 24] },
+  { combi: [6, 12, 18, 24] },
+  { combi: [9, 13, 17, 21] },
 ];
 
-const FourGridBoard = () => {
+const FiveGridBoard = () => {
   const state = useSelector((state) => state.gameState);
   const [boardData, setBoardData] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState(1);
@@ -83,7 +88,7 @@ const FourGridBoard = () => {
       }
     }
 
-    let len = state.players == 2 ? history.length >= 5 : history.length >= 7;
+    let len = state.players == 2 ? history.length >= 7 : history.length >= 10;
     if (mode == "advance" && len) {
       setNextTileToRemove(history[1], history);
       let newHistory = [...history];
@@ -112,7 +117,8 @@ const FourGridBoard = () => {
       const tile1 = newBoard[combi[0]];
       const tile2 = newBoard[combi[1]];
       const tile3 = newBoard[combi[2]];
-      if (tile1 == tile2 && tile1 == tile3 && tile1 != null) {
+      const tile4 = newBoard[combi[3]];
+      if (tile1 == tile2 && tile1 == tile3 && tile1 == tile4 && tile1 != null) {
         toast.success(`${state.playersName[`p${currentPlayer}`]} won the game`);
         setWinnerTiles(combi);
         let newScores = [...scores];
@@ -142,7 +148,6 @@ const FourGridBoard = () => {
   return (
     <>
       <Toaster />
-
       {/* Players Name */}
       <div className="flex justify-center text-2xl font-mono">
         <div>
@@ -172,133 +177,206 @@ const FourGridBoard = () => {
       </div>
 
       {/* Grid / Board */}
-      <div className="board-4g grid cursor-pointer relative justify-center mt-10">
+      <div className="board-5g grid cursor-pointer relative justify-center mt-10">
         <Tile
           value={boardData[0]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(0) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(0) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(0)}
           nextTile={nextTileToRemove == 0}
         />
         <Tile
           value={boardData[1]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(1) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(1) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(1)}
           nextTile={nextTileToRemove == 1}
         />
         <Tile
           value={boardData[2]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(2) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(2) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(2)}
           nextTile={nextTileToRemove == 2}
         />
         <Tile
-          value={boardData[9]}
-          classname={`bottom-border text-4xl ${
-            winnerTiles?.includes(9) && "bg-orange-400"
-          }`}
-          handleClick={() => handleClick(9)}
-          nextTile={nextTileToRemove == 9}
-        />
-        <Tile
           value={boardData[3]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(3) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(3) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(3)}
           nextTile={nextTileToRemove == 3}
         />
         <Tile
           value={boardData[4]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(4) && "bg-orange-400"
+          classname={`bottom-border text-2xl ${
+            winnerTiles?.includes(4) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(4)}
           nextTile={nextTileToRemove == 4}
         />
         <Tile
           value={boardData[5]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(5) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(5) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(5)}
           nextTile={nextTileToRemove == 5}
         />
         <Tile
-          value={boardData[10]}
-          classname={`bottom-border text-4xl ${
-            winnerTiles?.includes(10) && "bg-orange-400"
-          }`}
-          handleClick={() => handleClick(10)}
-          nextTile={nextTileToRemove == 10}
-        />
-        <Tile
           value={boardData[6]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(6) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(6) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(6)}
           nextTile={nextTileToRemove == 6}
         />
         <Tile
           value={boardData[7]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(7) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(7) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(7)}
           nextTile={nextTileToRemove == 7}
         />
         <Tile
           value={boardData[8]}
-          classname={`bottom-border right-border text-4xl ${
-            winnerTiles?.includes(8) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(8) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(8)}
           nextTile={nextTileToRemove == 8}
         />
-
+        <Tile
+          value={boardData[9]}
+          classname={`bottom-border text-2xl ${
+            winnerTiles?.includes(9) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(9)}
+          nextTile={nextTileToRemove == 9}
+        />
+        <Tile
+          value={boardData[10]}
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(10) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(10)}
+          nextTile={nextTileToRemove == 10}
+        />
         <Tile
           value={boardData[11]}
-          classname={`bottom-border text-4xl ${
-            winnerTiles?.includes(11) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(11) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(11)}
           nextTile={nextTileToRemove == 11}
         />
         <Tile
           value={boardData[12]}
-          classname={`right-border text-4xl ${
-            winnerTiles?.includes(12) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(12) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(12)}
           nextTile={nextTileToRemove == 12}
         />
         <Tile
           value={boardData[13]}
-          classname={`right-border text-4xl ${
-            winnerTiles?.includes(13) && "bg-orange-400"
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(13) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(13)}
           nextTile={nextTileToRemove == 13}
         />
         <Tile
           value={boardData[14]}
-          classname={`right-border text-4xl ${
-            winnerTiles?.includes(14) && "bg-orange-400"
+          classname={`bottom-border text-2xl ${
+            winnerTiles?.includes(14) ? "bg-orange-400" : ""
           }`}
           handleClick={() => handleClick(14)}
           nextTile={nextTileToRemove == 14}
         />
         <Tile
           value={boardData[15]}
-          classname={`text-4xl ${winnerTiles?.includes(15) && "bg-orange-400"}`}
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(15) ? "bg-orange-400" : ""
+          }`}
           handleClick={() => handleClick(15)}
           nextTile={nextTileToRemove == 15}
+        />
+        <Tile
+          value={boardData[16]}
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(16) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(16)}
+          nextTile={nextTileToRemove == 16}
+        />
+        <Tile
+          value={boardData[17]}
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(17) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(17)}
+          nextTile={nextTileToRemove == 17}
+        />
+        <Tile
+          value={boardData[18]}
+          classname={`bottom-border right-border text-2xl ${
+            winnerTiles?.includes(18) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(18)}
+          nextTile={nextTileToRemove == 18}
+        />
+        <Tile
+          value={boardData[19]}
+          classname={`bottom-border text-2xl ${
+            winnerTiles?.includes(19) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(19)}
+          nextTile={nextTileToRemove == 19}
+        />
+        <Tile
+          value={boardData[20]}
+          classname={`right-border text-2xl ${
+            winnerTiles?.includes(20) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(20)}
+          nextTile={nextTileToRemove == 20}
+        />
+        <Tile
+          value={boardData[21]}
+          classname={`right-border text-2xl ${
+            winnerTiles?.includes(21) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(21)}
+          nextTile={nextTileToRemove == 21}
+        />
+        <Tile
+          value={boardData[22]}
+          classname={`right-border text-2xl ${
+            winnerTiles?.includes(22) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(22)}
+          nextTile={nextTileToRemove == 22}
+        />
+        <Tile
+          value={boardData[23]}
+          classname={`right-border text-2xl ${
+            winnerTiles?.includes(23) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(23)}
+          nextTile={nextTileToRemove == 23}
+        />
+        <Tile
+          value={boardData[24]}
+          classname={`text-2xl ${
+            winnerTiles?.includes(24) ? "bg-orange-400" : ""
+          }`}
+          handleClick={() => handleClick(24)}
+          nextTile={nextTileToRemove == 24}
         />
       </div>
 
@@ -332,4 +410,4 @@ const FourGridBoard = () => {
   );
 };
 
-export default FourGridBoard;
+export default FiveGridBoard;
