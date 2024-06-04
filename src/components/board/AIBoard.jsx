@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useHardAILogic } from "../../hooks/useHardAI";
+import { useEasyAILogic } from "../../hooks/useEasyAI";
 
 const winnerCombinations = [
   { combi: [0, 1, 2] },
@@ -109,7 +110,11 @@ const AIBoard = () => {
       let newBoard = [...boardData];
       let move;
       if (level == "easy") {
-        //
+        console.log("Before: ", boardData);
+        move = useEasyAILogic(boardData);
+        console.log(move);
+        newBoard[move] = "O";
+        console.log(newBoard);
       }
       if (level == "hard") {
         console.log("Before: ", boardData);

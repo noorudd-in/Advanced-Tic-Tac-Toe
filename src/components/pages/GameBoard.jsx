@@ -5,13 +5,12 @@ import FiveGridBoard from "../board/FiveGridBoard";
 import AIBoard from "../board/AIBoard";
 const GameBoard = () => {
   const state = useSelector((state) => state.gameState);
-
   return (
     <>
       {state.grid == 3 && state.level == null && <ThreeGridBoard />}
       {state.grid == 4 && state.level == null && <FourGridBoard />}
       {state.grid == 5 && state.level == null && <FiveGridBoard />}
-      {state.level == "easy" || (state.level == "hard" && <AIBoard />)}
+      {(state.level == "easy" || state.level == "hard") && <AIBoard />}
     </>
   );
 };
