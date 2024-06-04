@@ -3,6 +3,7 @@ import Tile from "../Tile";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useHardAILogic } from "../../hooks/useHardAI";
 
 const winnerCombinations = [
   { combi: [0, 1, 2] },
@@ -15,7 +16,7 @@ const winnerCombinations = [
   { combi: [2, 4, 6] },
 ];
 
-const ThreeGridBoard = () => {
+const AIBoard = () => {
   const state = useSelector((state) => state.gameState);
   const [boardData, setBoardData] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState(1);
@@ -24,39 +25,33 @@ const ThreeGridBoard = () => {
   const [history, setHistory] = useState([]);
   const [scores, setScores] = useState([0, 0]);
   const [nextTileToRemove, setNextTileToRemove] = useState(null);
-  let mode = state.mode;
+  const mode = state.mode;
+  const level = state.level;
   const navigate = useNavigate();
 
   const handleClick = (index) => {
     // Check if board is already filled
-    if (boardData[index] != null) {
+    if (typeof boardData[index] != "number") {
       return;
     }
     if (winner != null) {
       return;
     }
-    // Add a move on the board and check for winner and draw
     let newBoard = [...boardData];
-    if (currentPlayer == 1) {
-      newBoard[index] = "X";
-      setCurrentPlayer(2);
-    } else {
-      newBoard[index] = "O";
-      setCurrentPlayer(1);
-    }
-    if (mode == "advance" && history.length >= 5) {
+    newBoard[index] = "X";
+    if (mode == "advance" && history.length >= 6) {
       setNextTileToRemove(history[1]);
       let newHistory = [...history];
-      newBoard[history[0]] = null;
+      newBoard[history[0]] = history[0];
       newHistory.shift();
       newHistory.push(index);
       setHistory(newHistory);
     } else {
       setHistory([...history, index]);
     }
-    setBoardData(newBoard);
     let winnerStatus = checkWinner(newBoard, currentPlayer);
     let drawStatus = checkDraw(newBoard);
+    setBoardData(newBoard);
     if (winnerStatus) {
       setWinner(currentPlayer);
       return;
@@ -65,6 +60,7 @@ const ThreeGridBoard = () => {
       setWinner(0);
       return;
     }
+    setCurrentPlayer(2);
   };
 
   const checkWinner = (newBoard) => {
@@ -73,7 +69,9 @@ const ThreeGridBoard = () => {
       const tile2 = newBoard[combi[1]];
       const tile3 = newBoard[combi[2]];
       if (tile1 == tile2 && tile1 == tile3 && tile1 != null) {
-        toast.success(`${state.playersName[`p${currentPlayer}`]} won the game`);
+        toast.success(
+          currentPlayer == 1 ? "You won the game" : "AI won the game"
+        );
         setWinnerTiles(combi);
         let newScores = [...scores];
         newScores[currentPlayer - 1] = newScores[currentPlayer - 1] + 1;
@@ -83,14 +81,20 @@ const ThreeGridBoard = () => {
     }
   };
 
-  const checkDraw = (newBoard) => newBoard.every((ele) => ele != null);
+  const checkDraw = (newBoard) =>
+    newBoard.every((ele) => typeof ele != "number");
 
   const handleRestart = () => {
     setWinner(null);
     setWinnerTiles(null);
     setBoardData(state.data);
     setHistory([]);
-    alert(`Now ${currentPlayer} will play first`);
+    setCurrentPlayer(1);
+    if (currentPlayer == 1) {
+      alert("Now you will play first");
+    } else {
+      alert("Now AI will play first");
+    }
   };
 
   useEffect(() => {
@@ -100,28 +104,54 @@ const ThreeGridBoard = () => {
     setBoardData(state.data);
   }, [state]);
 
+  useEffect(() => {
+    if (currentPlayer == 2) {
+      let newBoard = [...boardData];
+      let move;
+      if (level == "easy") {
+        //
+      }
+      if (level == "hard") {
+        console.log("Before: ", boardData);
+        move = useHardAILogic(boardData);
+        console.log(move);
+        newBoard[move] = "O";
+        console.log(newBoard);
+      }
+      if (mode == "advance" && history.length >= 5) {
+        setNextTileToRemove(history[1]);
+        let newHistory = [...history];
+        newBoard[history[0]] = history[0];
+        newHistory.shift();
+        newHistory.push(move);
+        setHistory(newHistory);
+      } else {
+        setHistory([...history, move]);
+      }
+      let winnerStatus = checkWinner(newBoard, currentPlayer);
+      let drawStatus = checkDraw(newBoard);
+      setBoardData(newBoard);
+      if (winnerStatus) {
+        setWinner(currentPlayer);
+        return;
+      }
+      if (drawStatus) {
+        setWinner(0);
+        return;
+      }
+      setCurrentPlayer(1);
+    }
+  }, [currentPlayer]);
+
   return (
     <>
       <Toaster />
-      <div className="flex justify-center text-2xl font-mono">
-        <div>
-          <div className={currentPlayer == 1 && "border-b border-b-orange-500"}>
-            {state.playersName.p1[0]?.toUpperCase() +
-              state.playersName.p1?.slice(1)}
-            : {scores[0]}
-          </div>
-          <div className={currentPlayer == 2 && "border-b border-b-orange-500"}>
-            {state.playersName.p2[0]?.toUpperCase() +
-              state.playersName.p2?.slice(1)}
-            : {scores[1]}
-          </div>
-        </div>
-      </div>
+      <div className="flex justify-center text-2xl font-mono">You vs AI</div>
 
       {/* Grid / Board */}
       <div className="board-3g grid cursor-pointer relative justify-center mt-10">
         <Tile
-          value={boardData[0]}
+          value={typeof boardData[0] == "number" ? null : boardData[0]}
           classname={`bottom-border right-border text-4xl ${
             winnerTiles?.includes(0) && "bg-orange-400"
           }`}
@@ -129,7 +159,7 @@ const ThreeGridBoard = () => {
           nextTile={nextTileToRemove == 0}
         />
         <Tile
-          value={boardData[1]}
+          value={typeof boardData[1] == "number" ? null : boardData[1]}
           classname={`bottom-border right-border text-4xl ${
             winnerTiles?.includes(1) && "bg-orange-400"
           }`}
@@ -137,7 +167,7 @@ const ThreeGridBoard = () => {
           nextTile={nextTileToRemove == 1}
         />
         <Tile
-          value={boardData[2]}
+          value={typeof boardData[2] == "number" ? null : boardData[2]}
           classname={`bottom-border text-4xl ${
             winnerTiles?.includes(2) && "bg-orange-400"
           }`}
@@ -145,7 +175,7 @@ const ThreeGridBoard = () => {
           nextTile={nextTileToRemove == 2}
         />
         <Tile
-          value={boardData[3]}
+          value={typeof boardData[3] == "number" ? null : boardData[3]}
           classname={`bottom-border right-border text-4xl ${
             winnerTiles?.includes(3) && "bg-orange-400"
           }`}
@@ -153,7 +183,7 @@ const ThreeGridBoard = () => {
           nextTile={nextTileToRemove == 3}
         />
         <Tile
-          value={boardData[4]}
+          value={typeof boardData[4] == "number" ? null : boardData[4]}
           classname={`bottom-border right-border text-4xl ${
             winnerTiles?.includes(4) && "bg-orange-400"
           }`}
@@ -161,7 +191,7 @@ const ThreeGridBoard = () => {
           nextTile={nextTileToRemove == 4}
         />
         <Tile
-          value={boardData[5]}
+          value={typeof boardData[5] == "number" ? null : boardData[5]}
           classname={`bottom-border text-4xl ${
             winnerTiles?.includes(5) && "bg-orange-400"
           }`}
@@ -169,7 +199,7 @@ const ThreeGridBoard = () => {
           nextTile={nextTileToRemove == 5}
         />
         <Tile
-          value={boardData[6]}
+          value={typeof boardData[6] == "number" ? null : boardData[6]}
           classname={`right-border text-4xl ${
             winnerTiles?.includes(6) && "bg-orange-400"
           }`}
@@ -177,7 +207,7 @@ const ThreeGridBoard = () => {
           nextTile={nextTileToRemove == 6}
         />
         <Tile
-          value={boardData[7]}
+          value={typeof boardData[7] == "number" ? null : boardData[7]}
           classname={`right-border text-4xl ${
             winnerTiles?.includes(7) && "bg-orange-400"
           }`}
@@ -185,7 +215,7 @@ const ThreeGridBoard = () => {
           nextTile={nextTileToRemove == 7}
         />
         <Tile
-          value={boardData[8]}
+          value={typeof boardData[8] == "number" ? null : boardData[8]}
           handleClick={() => handleClick(8)}
           classname={`text-4xl ${winnerTiles?.includes(8) && "bg-orange-400"}`}
           nextTile={nextTileToRemove == 8}
@@ -196,7 +226,11 @@ const ThreeGridBoard = () => {
       {winner != null && (
         <div className="flex justify-center my-5">
           <h1 className="text-2xl m-3 p-3 border-dotted border-t-2 border-b-2 border-orange-400 py-2">
-            {winner == 0 ? "Draw" : state.playersName[`p${winner}`] + " Wins!"}
+            {winner == 0
+              ? "Draw"
+              : currentPlayer == 1
+              ? "You Won!"
+              : "You Lost"}
           </h1>
         </div>
       )}
@@ -222,4 +256,4 @@ const ThreeGridBoard = () => {
   );
 };
 
-export default ThreeGridBoard;
+export default AIBoard;

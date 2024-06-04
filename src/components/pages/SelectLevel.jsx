@@ -55,6 +55,7 @@ const SelectLevel = () => {
         grid: gridSize,
         mode: mode,
         playersName: playerNames,
+        level: null,
       })
     );
     navigate("/game");
