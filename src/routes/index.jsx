@@ -3,6 +3,7 @@ import HomePage from "../components/pages/HomePage";
 import SelectLevel from "../components/pages/SelectLevel";
 import GlobalHeader from "../components/GlobalHeader";
 import GameBoard from "../components/pages/GameBoard";
+import SelectAILevel from "../components/pages/SelectAILevel";
 
 const GAME_ROUTES = createBrowserRouter([
   {
@@ -31,6 +32,16 @@ const GAME_ROUTES = createBrowserRouter([
       <>
         <GlobalHeader />
         <GameBoard />
+      </>
+    ),
+    errorElement: <h1>Error</h1>,
+  },
+  {
+    path: "/ai",
+    element: (
+      <>
+        <GlobalHeader />
+        <SelectAILevel />
       </>
     ),
     errorElement: <h1>Error</h1>,
