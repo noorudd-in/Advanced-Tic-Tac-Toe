@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import ThreeGridTwoPlayerDemo from "../../demo/ThreeGridTwoPlayerDemo";
 import FourGridTwoPlayerDemo from "../../demo/FourGridTwoPlayerDemo";
