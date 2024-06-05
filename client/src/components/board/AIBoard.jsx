@@ -110,18 +110,12 @@ const AIBoard = () => {
       let newBoard = [...boardData];
       let move;
       if (level == "easy") {
-        console.log("Before: ", boardData);
         move = useEasyAILogic(boardData);
-        console.log(move);
         newBoard[move] = "O";
-        console.log(newBoard);
       }
       if (level == "hard") {
-        console.log("Before: ", boardData);
         move = useHardAILogic(boardData);
-        console.log(move);
         newBoard[move] = "O";
-        console.log(newBoard);
       }
       if (mode == "advance" && history.length >= 5) {
         setNextTileToRemove(history[1]);

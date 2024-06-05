@@ -4,6 +4,8 @@ import SelectLevel from "../components/pages/SelectLevel";
 import GlobalHeader from "../components/GlobalHeader";
 import GameBoard from "../components/pages/GameBoard";
 import SelectAILevel from "../components/pages/SelectAILevel";
+import SelectOnlineLevel from "../components/pages/SelectOnlineLevel";
+import Rooms from "../components/Rooms";
 
 const GAME_ROUTES = createBrowserRouter([
   {
@@ -42,6 +44,26 @@ const GAME_ROUTES = createBrowserRouter([
       <>
         <GlobalHeader />
         <SelectAILevel />
+      </>
+    ),
+    errorElement: <h1>Error</h1>,
+  },
+  {
+    path: "/online",
+    element: (
+      <>
+        <GlobalHeader />
+        <SelectOnlineLevel />
+      </>
+    ),
+    errorElement: <h1>Error</h1>,
+  },
+  {
+    path: "/room",
+    element: (
+      <>
+        <GlobalHeader />
+        <Rooms />
       </>
     ),
     errorElement: <h1>Error</h1>,
