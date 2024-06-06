@@ -3,10 +3,9 @@ import ThreeGridBoard from "../board/ThreeGridBoard";
 import FourGridBoard from "../board/FourGridBoard";
 import FiveGridBoard from "../board/FiveGridBoard";
 import AIBoard from "../board/AIBoard";
-import OnlineBoard from "../board/OnlineBoard";
 import ThreeGridOnlineBoard from "../board/ThreeGridOnlineBoard";
 import FourGridOnlineBoard from "../board/FourGridOnlineBoard";
-import FIveGridOnlineBoard from "../board/FIveGridOnlineBoard";
+import FiveGridOnlineBoard from "../board/FiveGridOnlineBoard";
 const GameBoard = () => {
   const state = useSelector((state) => state.gameState);
   const onlineState = useSelector((state) => state.onlineState);
@@ -30,7 +29,7 @@ const GameBoard = () => {
   if (onlineState.mode != null && onlineState.grid == 4)
     return <FourGridOnlineBoard />;
   if (onlineState.mode != null && onlineState.grid == 5)
-    return <FIveGridOnlineBoard />;
+    return <FiveGridOnlineBoard />;
 
   return <>No Board</>;
 };

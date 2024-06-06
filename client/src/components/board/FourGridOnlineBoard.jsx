@@ -3,8 +3,9 @@ import Tile from "../Tile";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import { SOCKET_URL } from "../../constant";
 
-const socket = io("http://localhost:3001", {
+const socket = io(SOCKET_URL, {
   autoConnect: true,
 });
 
@@ -169,6 +170,12 @@ const FourGridOnlineBoard = () => {
       setHistory([]);
       alert(data);
     });
+
+    socket.on(`user_left${state.room}`, () =>
+      alert(
+        "Your opponent has left the game. You can either wait for them to rejoin or go back and restart a new game."
+      )
+    );
   }, [socket]);
 
   useEffect(() => {

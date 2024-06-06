@@ -90,7 +90,15 @@ const ThreeGridBoard = () => {
     setWinnerTiles(null);
     setBoardData(state.data);
     setHistory([]);
-    alert(`Now ${currentPlayer} will play first`);
+    alert(
+      `Now ${
+        currentPlayer == 1
+          ? state.playersName.p1[0]?.toUpperCase() +
+            state.playersName.p1?.slice(1)
+          : state.playersName.p2[0]?.toUpperCase() +
+            state.playersName.p2?.slice(1)
+      } will play first`
+    );
   };
 
   useEffect(() => {

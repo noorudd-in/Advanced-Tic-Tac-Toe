@@ -3,8 +3,9 @@ import Tile from "../Tile";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import { SOCKET_URL } from "../../constant";
 
-const socket = io("http://localhost:3001", {
+const socket = io(SOCKET_URL, {
   autoConnect: true,
 });
 
@@ -46,7 +47,7 @@ const winnerCombinations = [
   { combi: [9, 13, 17, 21] },
 ];
 
-const FIveGridOnlineBoard = () => {
+const FiveGridOnlineBoard = () => {
   const [boardData, setBoardData] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [winner, setWinner] = useState(null);
@@ -56,7 +57,6 @@ const FIveGridOnlineBoard = () => {
   const [nextTileToRemove, setNextTileToRemove] = useState(null);
   const state = useSelector((state) => state.onlineState);
   const navigate = useNavigate();
-  console.log(state);
 
   const handleClick = (index) => {
     // Check if board is already filled
@@ -174,6 +174,12 @@ const FIveGridOnlineBoard = () => {
       setHistory([]);
       alert(data);
     });
+
+    socket.on(`user_left${state.room}`, () =>
+      alert(
+        "Your opponent has left the game. You can either wait for them to rejoin or go back and restart a new game."
+      )
+    );
   }, [socket]);
 
   useEffect(() => {
@@ -431,4 +437,4 @@ const FIveGridOnlineBoard = () => {
   );
 };
 
-export default FIveGridOnlineBoard;
+export default FiveGridOnlineBoard;
