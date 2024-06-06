@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { updateOnlineState } from "../state/onlinePlayerSlice";
 import toast, { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
+import { SOCKET_URL } from "../constant";
 
-const socket = io("http://localhost:3001", {
+const socket = io(SOCKET_URL, {
   autoConnect: true,
 });
 

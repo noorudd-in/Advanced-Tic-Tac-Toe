@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Tile from "../Tile";
 import { io } from "socket.io-client";
+import { SOCKET_URL } from "../../constant";
 
-const socket = io("http://localhost:3001", {
+const socket = io(SOCKET_URL, {
   autoConnect: true,
 });
 
@@ -149,7 +150,7 @@ const ThreeGridOnlineBoard = () => {
 
     socket.on(`user_left${state.room}`, () =>
       alert(
-        "Your opponent have left the game. You can either wait for them to rejoin or go back and restart a new game."
+        "Your opponent has left the game. You can either wait for them to rejoin or go back and restart a new game."
       )
     );
   }, [socket]);

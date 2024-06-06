@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
-import OnlineBoard from "./board/OnlineBoard";
 import { updateOnlineState } from "../state/onlinePlayerSlice";
 import { useNavigate } from "react-router-dom";
+import { SOCKET_URL } from "../constant";
 
-const socket = io("http://localhost:3001", {
+const socket = io(SOCKET_URL, {
   autoConnect: true,
 });
 

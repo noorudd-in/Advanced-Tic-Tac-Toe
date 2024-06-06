@@ -16,9 +16,7 @@ const io = new Server(server, {
 let gameData = {};
 
 io.on("connection", (socket) => {
-  console.log("Entered", socket.id);
   socket.on("disconnect", () => {
-    console.log("Closed", socket.id);
     for (ele in gameData) {
       if (gameData[ele].p1?.id == socket.id) {
         gameData[ele].p1 = null;
@@ -64,6 +62,10 @@ io.on("connection", (socket) => {
   socket.on("restart_game", (data) => {
     socket.broadcast.emit(`restart_game${data.room}`, data.message);
   });
+});
+
+app.get("/", (req, res) => {
+  res.send("<h1>Hello world</h1>");
 });
 
 server.listen(3001, () => {
