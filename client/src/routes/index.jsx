@@ -6,6 +6,7 @@ import GameBoard from "../components/pages/GameBoard";
 import SelectAILevel from "../components/pages/SelectAILevel";
 import SelectOnlineLevel from "../components/pages/SelectOnlineLevel";
 import Rooms from "../components/Rooms";
+import WaitingForOpponent from "../components/WaitingForOpponent";
 
 const GAME_ROUTES = createBrowserRouter([
   {
@@ -64,6 +65,16 @@ const GAME_ROUTES = createBrowserRouter([
       <>
         <GlobalHeader />
         <Rooms />
+      </>
+    ),
+    errorElement: <h1>Error</h1>,
+  },
+  {
+    path: "/lobby",
+    element: (
+      <>
+        <GlobalHeader />
+        <WaitingForOpponent />
       </>
     ),
     errorElement: <h1>Error</h1>,
