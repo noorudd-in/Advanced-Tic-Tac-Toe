@@ -6,6 +6,8 @@ const initialState = {
   mode: null,
   playerOne: null,
   playerTwo: null,
+  myPlayerId: null,
+  room: null,
 };
 
 export const onlinePlayerSlice = createSlice({
@@ -18,6 +20,8 @@ export const onlinePlayerSlice = createSlice({
       state.mode = action.payload.mode;
       state.playerOne = action.payload.playerOne;
       state.playerTwo = action.payload.playerTwo;
+      state.myPlayerId = action.payload.myPlayerId;
+      state.room = action.payload.room;
     },
   },
 });

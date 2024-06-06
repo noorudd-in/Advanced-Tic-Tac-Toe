@@ -16,13 +16,17 @@ const io = new Server(server, {
 let gameData = {};
 
 io.on("connection", (socket) => {
+  console.log("Entered", socket.id);
   socket.on("disconnect", () => {
+    console.log("Closed", socket.id);
     for (ele in gameData) {
       if (gameData[ele].p1?.id == socket.id) {
         gameData[ele].p1 = null;
+        socket.broadcast.emit(`user_left${ele}`);
         break;
       } else if (gameData[ele].p2?.id == socket.id) {
         gameData[ele].p2 = null;
+        socket.broadcast.emit(`user_left${ele}`);
         break;
       }
     }
@@ -48,9 +52,17 @@ io.on("connection", (socket) => {
       }
       gameData[roomName] = newData;
       socket.emit(`joined${roomName}`, gameData);
+      socket.broadcast.emit(`allJoined${roomName}`, gameData);
     } else {
       socket.emit("full", "Sorry room is full!");
     }
+  });
+
+  socket.on("send_move", (data) => {
+    socket.broadcast.emit(`get_move${data.room}`, data);
+  });
+  socket.on("restart_game", (data) => {
+    socket.broadcast.emit(`restart_game${data.room}`, data.message);
   });
 });
 
