@@ -91,11 +91,6 @@ const AIBoard = () => {
     setBoardData(state.data);
     setHistory([]);
     setCurrentPlayer(1);
-    if (currentPlayer == 1) {
-      alert("Now you will play first");
-    } else {
-      alert("Now AI will play first");
-    }
   };
 
   useEffect(() => {
