@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useHardAILogic } from "../../hooks/useHardAI";
 import { useEasyAILogic } from "../../hooks/useEasyAI";
+import { clickSound, gameoverSound } from "../../sound";
 
 const winnerCombinations = [
   { combi: [0, 1, 2] },
@@ -29,6 +30,7 @@ const AIBoard = () => {
   const mode = state.mode;
   const level = state.level;
   const navigate = useNavigate();
+  let soundEnabled = localStorage.getItem("gameSound");
 
   const handleClick = (index) => {
     // Check if board is already filled
@@ -52,12 +54,15 @@ const AIBoard = () => {
     }
     let winnerStatus = checkWinner(newBoard, currentPlayer);
     let drawStatus = checkDraw(newBoard);
+    window.navigator.vibrate(5);
+    if (soundEnabled) clickSound.play();
     setBoardData(newBoard);
     if (winnerStatus) {
       setWinner(currentPlayer);
       return;
     }
     if (drawStatus) {
+      if (soundEnabled) gameoverSound.play();
       setWinner(0);
       return;
     }
@@ -73,6 +78,7 @@ const AIBoard = () => {
         toast.success(
           currentPlayer == 1 ? "You won the game" : "AI won the game"
         );
+        if (soundEnabled) gameoverSound.play();
         setWinnerTiles(combi);
         let newScores = [...scores];
         newScores[currentPlayer - 1] = newScores[currentPlayer - 1] + 1;

@@ -3,6 +3,7 @@ import Tile from "../Tile";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { clickSound, gameoverSound } from "../../sound";
 
 const winnerCombinations = [
   // Left Upper Grid Combination
@@ -48,6 +49,7 @@ const FourGridBoard = () => {
   const [nextTileToRemove, setNextTileToRemove] = useState(null);
   let mode = state.mode;
   const navigate = useNavigate();
+  let soundEnabled = localStorage.getItem("gameSound");
 
   const handleClick = (index) => {
     // Check if board is already filled
@@ -94,6 +96,8 @@ const FourGridBoard = () => {
     } else {
       setHistory([...history, index]);
     }
+    if (soundEnabled) clickSound.play();
+    window.navigator.vibrate(5);
     setBoardData(newBoard);
     let winnerStatus = checkWinner(newBoard, currentPlayer);
     let drawStatus = checkDraw(newBoard);
@@ -102,6 +106,7 @@ const FourGridBoard = () => {
       return;
     }
     if (drawStatus) {
+      if (soundEnabled) gameoverSound.play();
       setWinner(0);
       return;
     }
@@ -114,6 +119,7 @@ const FourGridBoard = () => {
       const tile3 = newBoard[combi[2]];
       if (tile1 == tile2 && tile1 == tile3 && tile1 != null) {
         toast.success(`${state.playersName[`p${currentPlayer}`]} won the game`);
+        if (soundEnabled) gameoverSound.play();
         setWinnerTiles(combi);
         let newScores = [...scores];
         newScores[currentPlayer - 1] = newScores[currentPlayer - 1] + 1;
