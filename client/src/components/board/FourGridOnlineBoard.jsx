@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { SOCKET_URL } from "../../constant";
+import { clickSound, gameoverSound } from "../../sound";
 
 const socket = io(SOCKET_URL, {
   autoConnect: true,
@@ -52,7 +53,7 @@ const FourGridOnlineBoard = () => {
   const [nextTileToRemove, setNextTileToRemove] = useState(null);
   const state = useSelector((state) => state.onlineState);
   const navigate = useNavigate();
-  console.log(state);
+  let soundEnabled = localStorage.getItem("gameSound");
 
   const handleClick = (index) => {
     // Check if board is already filled
@@ -86,6 +87,8 @@ const FourGridOnlineBoard = () => {
       newHistory = [...history, index];
       setHistory(newHistory);
     }
+    if (soundEnabled) clickSound.play();
+    window.navigator.vibrate(5);
     setBoardData(newBoard);
 
     let winnerStatus = checkWinner(newBoard, currentPlayer);
@@ -110,6 +113,7 @@ const FourGridOnlineBoard = () => {
       return;
     }
     if (drawStatus) {
+      if (soundEnabled) gameoverSound.play();
       setWinner(0);
       return;
     }
@@ -121,6 +125,7 @@ const FourGridOnlineBoard = () => {
       const tile2 = newBoard[combi[1]];
       const tile3 = newBoard[combi[2]];
       if (tile1 == tile2 && tile1 == tile3 && tile1 != null) {
+        if (soundEnabled) gameoverSound.play();
         setWinnerTiles(combi);
         return combi;
       }
@@ -159,6 +164,7 @@ const FourGridOnlineBoard = () => {
         setScores(data.scores);
       }
       if (drawStatus) {
+        if (soundEnabled) gameoverSound.play();
         setWinner(0);
       }
     });

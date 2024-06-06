@@ -9,7 +9,6 @@ const Tile = ({ classname, value, handleClick, nextTile }) => {
   if (value == "X") moveValue = p1;
   else if (value == "Y" || value == "O") moveValue = p2;
   else if (value == "Z") moveValue = p3;
-  console.log(value, moveValue);
   return (
     <div
       className={`tile flex justify-center items-center ${classname}`}
