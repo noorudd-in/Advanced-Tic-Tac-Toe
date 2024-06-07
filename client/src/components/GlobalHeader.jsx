@@ -3,9 +3,11 @@ import SoundOnIcon from "../assets/SoundOnIcon";
 import SoundOffIcon from "../assets/SoundOffIcon";
 import SettingIcon from "../assets/SettingIcon";
 import { clickSound } from "../sound";
+import { useNavigate } from "react-router-dom";
 
 const GlobalHeader = () => {
   const [soundOn, setSoundOn] = useState(false);
+  const navigate = useNavigate();
 
   const handleSound = () => {
     if (soundOn) {
@@ -33,7 +35,9 @@ const GlobalHeader = () => {
           <SoundOffIcon className="w-10 h-10" />
         )}
       </span>
-      <SettingIcon className="w-8 h-8" />
+      <span onClick={() => navigate("/setting")}>
+        <SettingIcon className="w-8 h-8" />
+      </span>
     </div>
   );
 };

@@ -356,7 +356,7 @@ const FourGridOnlineBoard = () => {
           </button>
           <button
             className="p-2 m-2 text-xl rounded-lg bg-orange-500 text-orange-950"
-            onClick={() => navigate("/")}
+            onClick={() => window.location.reload()}
           >
             Go Back
           </button>
