@@ -6,9 +6,16 @@ import AIBoard from "../board/AIBoard";
 import ThreeGridOnlineBoard from "../board/ThreeGridOnlineBoard";
 import FourGridOnlineBoard from "../board/FourGridOnlineBoard";
 import FiveGridOnlineBoard from "../board/FiveGridOnlineBoard";
+import { useEffect } from "react";
 const GameBoard = () => {
   const state = useSelector((state) => state.gameState);
   const onlineState = useSelector((state) => state.onlineState);
+
+  useEffect(() => {
+    if (state.mode == null && onlineState.mode == null) {
+      window.location.replace("/");
+    }
+  });
 
   if (onlineState.mode == null && state.grid == 3 && state.level == null)
     return <ThreeGridBoard />;

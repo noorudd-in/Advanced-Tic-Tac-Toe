@@ -8,11 +8,13 @@ import FiveGridThreePlayerDemo from "../../demo/FiveGridThreePlayerDemo";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { updateGameState } from "../../state/gameSlice";
 import toast, { Toaster } from "react-hot-toast";
+import Modal from "../Modal";
 
 const SelectLevel = () => {
   const [players, setPlayers] = useState(2);
   const [playerNames, setPlayerNames] = useState({ p1: "", p2: "", p3: "" });
   const [gridSize, setGridSize] = useState(3);
+  const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
@@ -69,6 +71,14 @@ const SelectLevel = () => {
       <div className="flex justify-center">
         {mode[0].toUpperCase() + mode.slice(1)} Version
       </div>
+      {mode == "advance" && (
+        <h1
+          onClick={() => setModal(true)}
+          className="flex justify-center underline underline-offset-4 text-sm text-blue-500"
+        >
+          What is advance mode?
+        </h1>
+      )}
       <div className="flex justify-center">
         <button
           className={`p-2 m-2 text-xl rounded-lg ${
@@ -192,6 +202,15 @@ const SelectLevel = () => {
           Go Back
         </button>
       </div>
+
+      <Modal
+        modal={modal}
+        setModal={setModal}
+        title="What is advance mode?"
+        content="In advance mode you need to align your move within specific moves or
+        else the previous moves will be erased. In this, one cannnot draw and
+        the game will continue untill one wins."
+      />
     </>
   );
 };

@@ -5,6 +5,7 @@ import { updateOnlineState } from "../state/onlinePlayerSlice";
 import toast, { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
 import { SOCKET_URL } from "../constant";
+import Modal from "./Modal";
 
 const socket = io(SOCKET_URL, {
   autoConnect: true,
@@ -13,6 +14,7 @@ const socket = io(SOCKET_URL, {
 const Rooms = ({ mode, grid }) => {
   const [name, setName] = useState(null);
   const [room, setRoom] = useState(null);
+  const [modal, setModal] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -75,6 +77,12 @@ const Rooms = ({ mode, grid }) => {
           className="text-black p-1 m-1 rounded-md bg-white"
           onChange={(e) => setRoom(e.target.value)}
         />
+        <h1
+          className="underline underline-offset-4 text-sm text-blue-500"
+          onClick={() => setModal(true)}
+        >
+          What is room number or name?
+        </h1>
       </div>
 
       <div className="grid place-items-center mt-5 mb-10">
@@ -91,6 +99,15 @@ const Rooms = ({ mode, grid }) => {
           Go Back
         </button>
       </div>
+
+      <Modal
+        modal={modal}
+        setModal={setModal}
+        title="What is a room?"
+        content="Enter room number or name to start the game. If room exist, you will be
+        joined automatically else a new room will be created. A room can have
+        maximum of two members."
+      />
     </>
   );
 };
