@@ -91,7 +91,7 @@ const FourGridOnlineBoard = () => {
     window.navigator.vibrate(5);
     setBoardData(newBoard);
 
-    let winnerStatus = checkWinner(newBoard, currentPlayer);
+    let winnerStatus = checkWinner(newBoard);
     let drawStatus = checkDraw(newBoard);
     let newScores;
     if (winnerStatus) {
@@ -154,16 +154,12 @@ const FourGridOnlineBoard = () => {
       }
       setHistory(data.history);
       setCurrentPlayer(data.currentPlayer);
-      let winnerStatus = checkWinner(
-        data.data,
-        data.currentPlayer == 1 ? 2 : 1
-      );
+      let winnerStatus = checkWinner(data.data);
       let drawStatus = checkDraw(data.data);
       if (winnerStatus) {
-        setWinner(data.currentPlayer);
+        setWinner(data.currentPlayer == 1 ? 2 : 1);
         setScores(data.scores);
-      }
-      if (drawStatus) {
+      } else if (drawStatus) {
         if (soundEnabled) gameoverSound.play();
         setWinner(0);
       }
