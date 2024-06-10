@@ -47,7 +47,6 @@ const Rooms = ({ mode, grid }) => {
     });
     socket.on(`joined${mode + grid + room}`, (message) => {
       let result = message[mode + grid + room];
-      console.log(result);
       dispatch(
         updateOnlineState({
           data: new Array(grid * grid).fill(null),
