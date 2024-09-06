@@ -1,4 +1,4 @@
-# HabiTech
+# Advanced Tic Tac Toe
 
 An advanced version of Tic Tac Toe with support upto 3 players, larger grids, AI opponents and even online multiplayer fun along with emojis.
 
